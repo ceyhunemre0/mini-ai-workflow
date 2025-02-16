@@ -1,10 +1,25 @@
 {
   "name": "mini-ai-workflow",
+  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Mini AI Workflow Project",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:server": "pnpm --filter server dev",
+    "dev:ui": "pnpm --filter ui dev",
+    "dev": "concurrently \"pnpm dev:server\" \"pnpm dev:ui\"",
+    "build:server": "pnpm --filter server build",
+    "build:ui": "pnpm --filter ui build",
+    "build": "pnpm build:server && pnpm build:ui",
+    "start:server": "pnpm --filter server start",
+    "start:ui": "pnpm --filter ui start",
+    "start": "concurrently \"pnpm start:server\" \"pnpm start:ui\""
+  },
+  "workspaces": [
+    "server",
+    "ui"
+  ],
+  "dependencies": {
+    "concurrently": "^8.2.2"
   },
   "keywords": [],
   "author": "",
