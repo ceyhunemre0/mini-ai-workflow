@@ -23,7 +23,9 @@ export const connectDB = async () => {
         await AppDataSource.initialize().then(async () => {
             console.log("Veritabanı bağlantısı başarılı.");
             // Migration'ları çalıştırıyoruz
-            await AppDataSource.runMigrations();
+            if(process.env.NODE_ENV === 'development') {
+                await AppDataSource.runMigrations();
+            }
             console.log("Migration'lar başarıyla çalıştırıldı.");
         });
         
