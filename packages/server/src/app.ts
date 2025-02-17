@@ -13,7 +13,7 @@ app.use(cors());
 connectDB()
     .then(() => {
         // Veritabanı bağlantısı başarılı olduktan sonra API'yı başlatıyoruz
-        app.use('/api/auth', authRoutes);
+        app.use('/api', authRoutes);
     })
     .catch((err) => {
         console.error("Bağlantı hatası:", err);
