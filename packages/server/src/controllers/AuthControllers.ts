@@ -6,10 +6,10 @@ export class AuthController {
         try {
             const { email, password } = req.body;
             const user = await AuthService.register(email, password);
-            res.status(201).json({ message: 'Kullanıcı oluşturuldu', user }); // No return here
+            res.status(201).json({ message: 'Kullanıcı oluşturuldu', user });
         } catch (error) {
             if (error instanceof Error) {
-                res.status(400).json({ message: error.message }); // No return here
+                res.status(400).json({ message: error.message });
             } else {
                 res.status(400).json({ message: 'Bilinmeyen bir hata oluştu' });
             }
@@ -23,13 +23,13 @@ export class AuthController {
 
             if (!token) {
                 res.status(400).json({ message: "Geçersiz email veya şifre" });
-                return; // Return after response to prevent further code execution
+                return;
             }
 
-            res.status(201).json({ message: "Giriş başarılı", token }); // No return here
+            res.status(201).json({ message: "Giriş başarılı", token });
         } catch (error) {
             if (error instanceof Error) {
-                res.status(400).json({ message: error.message }); // No return here
+                res.status(400).json({ message: error.message });
             } else {
                 res.status(400).json({ message: 'Bilinmeyen bir hata oluştu' });
             }
