@@ -1,6 +1,7 @@
 import { UserRepository } from '../repositories/UserRepository';
 import { User } from '../database/entities/User';
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
 
 export class AuthService {
     static async register(email: string, password: string): Promise<User | null> {
@@ -15,10 +16,20 @@ export class AuthService {
         return await UserRepository.save(newUser);
     }
 
-    static async validateUser(email: string, password: string): Promise<boolean> {
+    static async validateUser(email: string, password: string): Promise<string | null> {
         const user = await UserRepository.findOneBy({ email });
-        if (!user) return false;
+        if (!user) return null;
 
-        return await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return null;
+
+
+        // Kullanıcı doğrulandı, JWT token üret
+        const token = jwt.sign(
+            { userId: user.id, email: user.email },
+            process.env.JWT_SECRET as string,
+            { expiresIn: "1h" }
+        );
+        return token;
     }
 }
